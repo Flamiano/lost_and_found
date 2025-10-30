@@ -35,7 +35,6 @@ function mask_email($email)
 function mask_phone($phone)
 {
     // Masks all but the first two and last two digits
-    // Example: 09171234567 -> 09*******67
     $length = strlen($phone);
     // Ensure the phone number is long enough to mask (e.g., at least 5 digits)
     if ($length <= 4) return $phone;
@@ -107,7 +106,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
 // HANDLE ADD / EDIT FORM SUBMISSION 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['check_duplicate'])) {
 
-    // 1. Get POST data
+    // Get POST data
     $id = $_POST['id'] ?? '';
     $full_name = trim($_POST['full_name']);
 
@@ -118,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['check_duplicate'])) 
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
-    // 2. Data Cleaning and Formatting
+    //  Data Cleaning and Formatting
     $is_add_mode = empty($id);
     $errors = [];
 
@@ -133,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['check_duplicate'])) 
         $student_number_formatted = '';
     }
 
-    // 3. Server-side validation
+    // Server-side validation
 
     // Validation for both add and edit
     if (empty($full_name)) {

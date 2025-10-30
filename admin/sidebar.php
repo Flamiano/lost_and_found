@@ -1,8 +1,6 @@
 <?php
-// sidebar.php (Ensures consistent icons)
 require '../config/db.php';
 
-// Check for session existence before attempting to start (though typically done earlier)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

@@ -9,11 +9,11 @@ if (!isset($_SESSION['admin_id'])) {
 
 $admin_id = $_SESSION['admin_id'];
 
-// 2. Initialize $message and $status
+// Initialize $message and $status
 $message = '';
 $status = ''; // 'success' or 'error'
 
-// 3. Fetch Current Admin Data, EXCLUDING 'username'
+// Fetch Current Admin Data, EXCLUDING 'username'
 try {
     // UPDATED: Selecting only full_name, email, and password
     $stmt = $conn->prepare("SELECT full_name, email, password FROM admins WHERE id = :id");
@@ -38,7 +38,7 @@ try {
 }
 
 
-// 4. Handle Form Submission
+// Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // --- Password Update ---
+    // Password Update 
     elseif ($action === 'update_password') {
         $current_password = $_POST['current_password'] ?? '';
         $new_password = $_POST['new_password'] ?? '';
@@ -124,14 +124,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Re-fetch admin data after a failed profile update to show current values
     if ($action === 'update_profile' && $status === 'error') {
-        // UPDATED: Selecting only full_name, email, and password
+        // UPDATED Selecting only full_name, email, and password
         $stmt = $conn->prepare("SELECT full_name, email, password FROM admins WHERE id = :id");
         $stmt->execute([':id' => $admin_id]);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
 
-// 5. Handle URL Status/Message for alerts (using null coalescing operator for safety)
+// Handle URL Status/Message for alerts (using null coalescing operator for safety)
 $status = $_GET['status'] ?? $status;
 $message = $_GET['message'] ?? $message;
 

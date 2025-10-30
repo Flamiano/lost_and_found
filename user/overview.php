@@ -201,9 +201,7 @@ try {
             once: true,
         });
 
-        // ==========================================================
         // ApexCharts Configuration
-        // ==========================================================
 
         const chartSeries = <?= json_encode($chart_series) ?>;
         const chartLabels = <?= json_encode($chart_labels) ?>;

@@ -9,7 +9,6 @@ if (!isset($_SESSION['admin_id'])) {
 
 $admin_id = $_SESSION['admin_id'];
 
-// CONFIGURATION AND HELPER FUNCTIONS 
 
 $user_report_dir_fs = "../user/inserted_report/";
 $admin_report_dir_fs = "inserted_report/"; // Relative path from 'admin/'
@@ -71,7 +70,6 @@ $form_data = [
 ];
 
 
-// HANDLE AJAX DELETE & UPDATE ACTIONS (Real-time)
 
 // Check for AJAX request (used for Delete, Status Update, and Claim)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -132,9 +130,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WI
                 }
             }
         } elseif ($action === 'log_claim') { // Action name changed to 'log_claim' in the final JS for clarity
-            // 🚀 FIXED CLAIM LOGGING ACTION 🚀
 
-            // 1. Sanitize and validate all claim details
+            // Sanitize and validate all claim details
             $item_report_id = $id; // ID is already validated as the item_report_id
             $old_status = $_POST['old_status'] ?? '';
 
@@ -173,7 +170,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WI
                     VALUES (?, ?, ?, ?, ?, ?, ?)
                 ");
 
-                // Execute parameters: [int, string, string, string, int, string, string/null]
                 if (!$stmt_claim->execute([
                     $item_report_id,
                     $claimant_name,
@@ -186,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WI
                     throw new Exception("Claim log insertion failed.");
                 }
 
-                // 2. Update the status of the item in admin_reports to 'Claimed'
+                // Update the status of the item in admin_reports to 'Claimed'
                 $stmt_status = $conn->prepare("UPDATE {$table} SET status = ? WHERE id = ?");
 
                 if (!$stmt_status->execute([$new_status, $item_report_id])) {
@@ -813,11 +809,7 @@ $claimed_reports = count(array_filter($reports, fn($r) => $r['status'] === 'Clai
     </div>
 
     <script>
-        /**
-         * Returns the Tailwind CSS classes for a given report status.
-         * @param {string} status - The report status ('Pending', 'Approved', etc.).
-         * @returns {string} - Tailwind CSS classes for styling.
-         */
+      
         function getStatusClass(status) {
             switch (status) {
                 case 'Pending':
@@ -833,12 +825,7 @@ $claimed_reports = count(array_filter($reports, fn($r) => $r['status'] === 'Clai
             }
         }
 
-        /**
-         * Updates the status count statistics shown on the page.
-         * @param {string} oldStatus - The status before the update/delete.
-         * @param {string|null} newStatus - The status after the update (null if deleting).
-         * @param {boolean} isDelete - True if a report is being deleted.
-         */
+        
         function updateStats(oldStatus, newStatus, isDelete = false) {
             const totalStat = document.getElementById('stat_total');
 
@@ -874,10 +861,7 @@ $claimed_reports = count(array_filter($reports, fn($r) => $r['status'] === 'Clai
             }
         }
 
-        /**
-         * Closes the claim item modal and resets its form.
-         * This function was defined twice, now it's unified here.
-         */
+       
         function closeClaimItemModal() {
             // Use class list for consistency with other modal functions, but style.display is fine if modal is implemented with it
             const modal = document.getElementById('claimItemModal');
@@ -894,14 +878,7 @@ $claimed_reports = count(array_filter($reports, fn($r) => $r['status'] === 'Clai
             document.getElementById('claim_old_status').value = '';
         }
 
-        /**
-         * Updates a specific table row's status visually and numerically.
-         * This function is needed for handleClaimSubmission/handleStatusUpdate to update the UI.
-         * @param {string|number} id - The report ID.
-         * @param {string} tableType - The type of report ('user' or 'admin').
-         * @param {string} newStatus - The new status to apply.
-         * @param {string} oldStatus - The status before the update.
-         */
+      
         function updateTableRowStatus(id, tableType, newStatus, oldStatus) {
             const row = document.getElementById(`report-row-${id}`);
 
@@ -1059,10 +1036,7 @@ $claimed_reports = count(array_filter($reports, fn($r) => $r['status'] === 'Clai
 
         // AJAX & SWEETALERT FUNCTIONS
 
-        /**
-         * Handles the AJAX submission for updating a report's status (for non-Claimed statuses).
-         * @param {Event} event - The form submission event.
-         */
+      
         async function handleStatusUpdate(event) {
             event.preventDefault();
 
@@ -1150,11 +1124,7 @@ $claimed_reports = count(array_filter($reports, fn($r) => $r['status'] === 'Clai
             }
         }
 
-        /**
-         * Confirms the deletion action with the user using SweetAlert2.
-         * @param {string|number} id - The report ID.
-         * @param {string} tableType - The type of report ('user' or 'admin').
-         */
+       
         function confirmDelete(id, tableType) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -1171,11 +1141,7 @@ $claimed_reports = count(array_filter($reports, fn($r) => $r['status'] === 'Clai
             });
         }
 
-        /**
-         * Executes the AJAX request to delete a report.
-         * @param {string|number} id - The report ID.
-         * @param {string} tableType - The type of report ('user' or 'admin').
-         */
+      
         async function deleteReport(id, tableType) {
             const row = document.getElementById(`report-row-${id}`);
             const oldStatus = row ? row.getAttribute('data-status') : null;
@@ -1310,7 +1276,6 @@ $claimed_reports = count(array_filter($reports, fn($r) => $r['status'] === 'Clai
             if (statusForm) statusForm.addEventListener('submit', handleStatusUpdate);
 
 
-            // Check for success message after redirect and show SweetAlert (PHP logic)
             // This PHP block must be run by the server (e.g., inside a .php file)
             <?php if (isset($_SESSION['report_success_title'])): ?>
                 Swal.fire({

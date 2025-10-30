@@ -18,11 +18,7 @@ if (!is_dir($targetDir)) {
 }
 
 
-// =====================================================================
-// === 1. AJAX ENDPOINT LOGIC (RETURNS JSON) ===
-// This block runs when JavaScript requests data via `?data=fetch`
-// =====================================================================
-
+// AJAX ENDPOINT LOGIC (RETURNS JSON)
 if (isset($_GET['data']) && $_GET['data'] === 'fetch') {
     header('Content-Type: application/json');
     $response = [];
@@ -56,11 +52,7 @@ if (isset($_GET['data']) && $_GET['data'] === 'fetch') {
     }
 }
 
-
-// =====================================================================
-// === 2. STANDARD PAGE LOGIC (HANDLES POST/DELETE/GENERATES HTML) ===
-// =====================================================================
-
+// STANDARD PAGE LOGIC (HANDLES POST/DELETE/GENERATES HTML)
 
 // Handle delete
 if (isset($_POST['delete_id'])) {
@@ -161,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['delete_id'])) {
 }
 
 
-// --- Initial Student Data Fetch (Only needed once for the top card) ---
+//  Initial Student Data Fetch (Only needed once for the top card) 
 $stmt_student = $conn->prepare("SELECT full_name, student_number, email FROM students WHERE id = :id");
 $stmt_student->execute([':id' => $student_id]);
 $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
@@ -420,7 +412,7 @@ $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
     </div>
 
     <script>
-        // --- Modal Functions (Unchanged) ---
+        // Modal Functions (Unchanged)
         function openDeleteModal(id) {
             document.getElementById("delete_id").value = id;
             document.getElementById("deleteModal").classList.remove("hidden");
@@ -441,7 +433,7 @@ $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
         }
 
 
-        // --- Real-time Fetching with AJAX ---
+        // Real-time Fetching with AJAX 
         const totalReportsCount = document.getElementById('totalReportsCount');
         const approvedReportsCount = document.getElementById('approvedReportsCount');
         const recentReportContainer = document.getElementById('recentReportContainer');
@@ -458,7 +450,7 @@ $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
             return 'bg-gray-100 text-gray-800 border border-gray-200';
         }
 
-        // 1. Renders the main reports table based on current filters and stored data
+        // Renders the main reports table based on current filters and stored data
         function renderReportsTable() {
             const search = searchInput.value.toLowerCase();
             const status = statusFilter.value;
@@ -517,7 +509,7 @@ $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
             reportsTableBody.innerHTML = tableHTML;
         }
 
-        // 2. Renders the recent report card (Adjusted for new card styling)
+        // Renders the recent report card (Adjusted for new card styling)
         function renderRecentReport(report) {
             let content;
             if (report) {
@@ -585,7 +577,7 @@ $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
         }
 
 
-        // 3. Main function to fetch all data via AJAX (Unchanged)
+        // Main function to fetch all data via AJAX (Unchanged)
         async function fetchReportsData() {
             try {
                 // Call the same PHP file but trigger the JSON response block
@@ -616,7 +608,7 @@ $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
         }
 
 
-        // --- Initialization and Event Listeners (Unchanged logic) ---
+        // Initialization and Event Listeners (Unchanged logic) 
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
             const status = urlParams.get('status');
@@ -649,7 +641,7 @@ $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
 
         });
 
-        // --- Form Validation (Unchanged logic) ---
+        // Form Validation (Unchanged logic) 
         document.getElementById("reportForm").addEventListener("submit", function(event) {
             const form = event.target;
             const itemName = form.item_name.value.trim();

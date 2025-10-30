@@ -100,9 +100,6 @@ $day_map = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 $user_verification_data = [$total_verified_users, $total_unverified_users];
 $user_verification_labels = ['Verified Users', 'Unverified Users'];
 
-// **********************************************
-// ** NEW: Data for Grouped Bar Charts 📊 **
-// **********************************************
 $report_category_counts = [];
 $report_status_counts = [];
 
@@ -187,7 +184,7 @@ try {
     }
 
 
-    // Chart 2: Weekly Report Data (Lost Items by Day) - Existing Logic
+    // Weekly Report Data (Lost Items by Day) - Existing Logic
     $stmt_lost = $conn->query("
         SELECT DAYOFWEEK(date_reported) as day, COUNT(*) as count 
         FROM reports 
@@ -203,7 +200,7 @@ try {
         }
     }
 
-    // Chart 2: Weekly Report Data (Found Items by Day) - Existing Logic
+    // Weekly Report Data (Found Items by Day) - Existing Logic
     $stmt_found = $conn->query("
         SELECT DAYOFWEEK(date_reported) as day, COUNT(*) as count 
         FROM admin_reports 
@@ -514,9 +511,7 @@ $js_admin_status_data = json_encode(array_values($report_status_counts['admin'] 
             updateTime();
             setInterval(updateTime, 1000);
 
-            // =========================================================================
-            // CHART 1: Weekly Report (Lost vs. Found) - Existing
-            // =========================================================================
+            // CHART for Weekly Report (Lost vs. Found) - Existing
             const weeklyOptions = {
                 chart: {
                     type: 'area',
@@ -557,9 +552,7 @@ $js_admin_status_data = json_encode(array_values($report_status_counts['admin'] 
             var weeklyChart = new ApexCharts(document.querySelector("#weeklyChart"), weeklyOptions);
             weeklyChart.render();
 
-            // =========================================================================
-            // CHART 2: Category Breakdown (Donut Chart) - Existing
-            // =========================================================================
+            // CHART for Category Breakdown (Donut Chart) - Existing
             const categoryOptions = {
                 chart: {
                     type: 'donut',
@@ -585,9 +578,7 @@ $js_admin_status_data = json_encode(array_values($report_status_counts['admin'] 
             var categoryChart = new ApexCharts(document.querySelector("#categoryChart"), categoryOptions);
             categoryChart.render();
 
-            // =========================================================================
-            // CHART 3: Lost vs. Found Totals (Bar Chart) - Existing
-            // =========================================================================
+            // CHART for Lost vs. Found Totals (Bar Chart) - Existing
             const lostFoundOptions = {
                 chart: {
                     type: 'bar',
@@ -641,9 +632,7 @@ $js_admin_status_data = json_encode(array_values($report_status_counts['admin'] 
             var lostFoundBarChart = new ApexCharts(document.querySelector("#lostFoundBarChart"), lostFoundOptions);
             lostFoundBarChart.render();
 
-            // =========================================================================
-            // CHART 4: User Verification Status (Bar Chart) - Existing
-            // =========================================================================
+            // CHART for User Verification Status (Bar Chart) - Existing
             const userVerificationOptions = {
                 chart: {
                     type: 'bar',
@@ -697,9 +686,7 @@ $js_admin_status_data = json_encode(array_values($report_status_counts['admin'] 
             var userVerificationBarChart = new ApexCharts(document.querySelector("#userVerificationBarChart"), userVerificationOptions);
             userVerificationBarChart.render();
 
-            // =========================================================================
-            // ** NEW CHART 5: Category Grouped Bar Chart (Student vs Admin) **
-            // =========================================================================
+            // NEW CHART for  Category Grouped Bar Chart (Student vs Admin) 
             const categoryGroupedOptions = {
                 chart: {
                     type: 'bar',
@@ -761,10 +748,7 @@ $js_admin_status_data = json_encode(array_values($report_status_counts['admin'] 
             var categoryGroupedBarChart = new ApexCharts(document.querySelector("#categoryGroupedBarChart"), categoryGroupedOptions);
             categoryGroupedBarChart.render();
 
-            // =========================================================================
-            // ** NEW CHART 6: Status Grouped Bar Chart (Student vs Admin) **
-            // We'll use a stacked bar for a better status comparison.
-            // =========================================================================
+            // CHART for Status Grouped Bar Chart (Student vs Admin) 
             const statusGroupedOptions = {
                 chart: {
                     type: 'bar',

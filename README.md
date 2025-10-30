@@ -50,7 +50,7 @@ npm install
 
 -----
 
-## 3\. 🌐 Access the Project
+## 3\. Access the Project
 
 Once all steps are complete, open your web browser and navigate to the project's local URL:
 
